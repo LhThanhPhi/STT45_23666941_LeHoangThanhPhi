@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      label {
+        display: inline-block;
+        width: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="studentForm">
+      <label for="msv"><strong>Mã Sinh Viên :</strong></label>
+      <input type="text" name="msv" id="msv" /><br /><br />
+      <label for="ht"><strong>Họ Tên Sinh Viên :</strong></label>
+      <input type="text" name="ht" id="ht" /><br /><br />
+      <label for="email"><strong>Email :</strong></label>
+      <input type="text" name="email" id="email" /><br /><br />
+      <label for="tuoi"><strong>Tuổi :</strong></label>
+      <input type="text" name="tuoi" id="tuoi" /><br /><br />
+      <label for="date"><strong>Ngày đăng kí :</strong></label>
+      <input type="date" name="date" id="date" /><br /><br />
+      <label for="image"><strong>Ảnh :</strong></label>
+      <input
+        type="file"
+        name="image"
+        id="image"
+        accept=".jpeg,.jpg,.png"
+      /><br /><br />
+      <button type="button" onclick="validateForm()">Submit</button>
+    </form>
+
+    <script>
+      function validateForm() {
+        const msv = document.getElementById("msv").value;
+        const ht = document.getElementById("ht").value;
+        const email = document.getElementById("email").value;
+        const tuoi = parseInt(document.getElementById("tuoi").value, 10);
+        const date = new Date(document.getElementById("date").value);
+        const image = document.getElementById("image").files[0];
+        const currentDate = new Date();
+        const futureDate = new Date();
+        futureDate.setDate(currentDate.getDate() + 20);
+
+        const msvPattern = /^[1-9]$/;
+        const htPattern = /^([A-Z][a-z]*\s)+[A-Z][a-z]*$/;
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const imagePattern = /\.(jpeg|jpg|png)$/i;
+
+        if (!msvPattern.test(msv)) {
+          alert("Mã Sinh Viên phải là số từ 1 đến 9.");
+          return;
+        }
+
+        if (!htPattern.test(ht)) {
+          alert(
+            "Họ Tên Sinh Viên phải gồm ít nhất 2 từ, mỗi từ bắt đầu bằng chữ cái viết hoa."
+          );
+          return;
+        }
+
+        if (!emailPattern.test(email)) {
+          alert("Email không đúng định dạng.");
+          return;
+        }
+
+        if (isNaN(tuoi) || tuoi <= 18) {
+          alert("Tuổi phải lớn hơn 18.");
+          return;
+        }
+
+        if (date <= futureDate) {
+          alert("Ngày đăng kí phải sau ngày hiện tại ít nhất 20 ngày.");
+          return;
+        }
+
+        if (!image) {
+          alert("Vui lòng chọn một file ảnh.");
+          return;
+        }
+
+        if (!imagePattern.test(image.name)) {
+          alert("Ảnh phải có định dạng JPEG hoặc PNG.");
+          return;
+        }
+
+        alert("Form nhập vào là hợp lệ!");
+      }
+    </script>
+  </body>
+</html>
